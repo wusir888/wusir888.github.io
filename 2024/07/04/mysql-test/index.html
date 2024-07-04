@@ -9,7 +9,7 @@
     
     <title>
         
-            self-introduction |
+            mysql test |
         
         Keep Theme
     </title>
@@ -151,7 +151,7 @@
             <div class="post-content-bottom border-box">
                 
                     <div class="post-title">
-                        self-introduction
+                        mysql test
                     </div>
                 
 
@@ -179,12 +179,12 @@
         
             <span class="meta-info-item post-create-date">
                 <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
-                <span class="datetime">2024-06-21 10:29:58</span>
+                <span class="datetime">2024-07-04 19:55:13</span>
             </span>
 
             <span class="meta-info-item post-update-date">
                 <i class="icon fa-solid fa-file-pen"></i>&nbsp;
-                <span class="datetime" data-updated="Fri Jun 21 2024 20:45:22 GMT+0800">2024-06-21 20:45:22</span>
+                <span class="datetime" data-updated="Thu Jul 04 2024 19:55:40 GMT+0800">2024-07-04 19:55:40</span>
             </span>
         
 
@@ -209,8 +209,22 @@
                 <div class="post-content keep-markdown-body ">
                     
 
-                    <p>Hello!<br>What a great day!<br>Nice to meet you at here,My name is Honor .Now I am an undergraduate on campus.My major is software engineering.I  usually enjoy learning english for CET4.But do not it.I will keep doing it until I succeed.I believe  where there is a will there is a way.In addition to these,I also like  to browse some technical blogs and collect some useful knowledges and tools for me to learn programming.</p>
-<p>There is no best programming language, only the most suitable programming language</p>
+                    <p>模拟练习1<br>一、题目：<br>1.创建数据库<br>数据库名称为你自己姓名的拼音缩写（例如：hjp）。<br>数据库截图：（右键数据库属性截图）</p>
+<p>2.创建数据表<br>导入数据库文件，创建数据表employees、departments、salary。<br>数据表截图：</p>
+<p>3.插入数据<br>要插入employees表的数据如下：<br>EmployeeID	Name	Education	Birthday	Sex	WorkYear	DepartmentID<br>091101	王一博	本科	1997-08-05	男	2	3<br>091102	王向荣	大专	1969-05-02	女	14	1<br>091103	刘明	本科	1978-06-13	男	5	2<br>插入数据的代码:<br>insert into employees (employeeid,name,education,birthday,sex,workyear,departmentid)<br>values(‘091101’,’王一博’,’本科’,’1997-08-05’,’男’,’2’,’3’);<br>insert into employees (employeeid,name,education,birthday,sex,workyear,departmentid)<br>values(‘091102’,’王向荣’,’大专’,’1969-05-02’,’男’,’14’,’1’);<br>insert into employees (employeeid,name,education,birthday,sex,workyear,departmentid)<br>values(‘091103’,’刘明’,’本科’,’1978-06-13’,’男’,’5’,’2’);<br>插入数据后的截图：<br>select * from employees where employeeid in(‘091101’,’091102’,’091103’);<br>（查询结果至少包含添加的数据）</p>
+<p>4.数据更新<br>将employees表中性别为“0”的改为“女”，性别为“1”的改为“男”。<br>操作代码：<br>update employees set sex&#x3D;’女’ where sex&#x3D;’0’;<br>update employees set sex&#x3D;’男’ where sex&#x3D;’1’;<br>操作后的结果截图：<br>select * from employees;</p>
+<p>5.数据查询<br>（1）查询所有地址中含有“中山”的雇员的编号及部门号。（修改变量）<br>查询命令的代码：<br>select employeeid 编号,departmentid 部门号 from employees where address like’%中山%’;<br>查询后的结果截图：</p>
+<p>（2）用子查询的方法查找所有收入在2500元以下的雇员的情况。<br>查询命令的代码：<br>select * from employees where employeeid in (select employeeid from salary where income&lt;2500);<br>查询后的结果截图：</p>
+<p>（3）查询Employees雇员的姓名、住址和收入水平，2000元以下显示为低收入，2000~3000元显示为中等收入，3000元以上显示为高收入。<br>实际收入：income-outcome   收入：income<br>查询命令的代码：<br>select name,address,case<br>when income&lt;2000 then ‘低收入’<br>when income&gt;&#x3D;2000 and income&lt;3000 then ‘中等收入’<br>when income&gt;&#x3D;3000 then ‘高收入’<br>else ‘无’ end 收入<br>from employees e,salary s where e.employeeid&#x3D;s.employeeid;<br>查询后的结果截图：</p>
+<p>（4）用子查询的方法查找年龄比财务部所有雇员年龄都小的雇员的姓名。<br>查询命令代码：<br>select name from employees where year(now())-year(birthday)&lt;all(<br>  select year(now())-year(birthday) from employees where departmentid in(<br>    select departmentid from departments where departmentname&#x3D;’财务部’<br>  )<br>);<br>查询后的结果截图：</p>
+<p>6.创建视图<br>创建视图emp，视图中要查询研发部在1966年以前出生的雇员姓名及其薪水详情，并查询该视图。<br>创建视图代码：<br>create view emp as<br>select name,s.*from employees<br>left join departments using(departmentid)<br>left join salary s using(employeeid)<br>where departmentname&#x3D;’研发部’ and birthday&lt;’1966-01-01’;<br>查询视图的结果截图：<br>select * from emp;</p>
+<p>7.创建存储过程（15分）<br>创建存储过程，要求当一个员工的工作年份大于6年时将其转到经理办公室工作。创建存储过程的代码：<br>create procedure dome1(in domeid char(6))<br>begin<br>if(select workyear from employees where employeeid&#x3D;domeid)&gt;6 then<br>update employees set departmentid&#x3D;(select departmentid from departments where departmentname&#x3D;’经理办公室’)<br>where employeeid&#x3D;domeid;<br>end if;<br>end;<br>调用存储过程的运行结果截图：<br>set @domeid1&#x3D;’091102’;<br>call dome1(@domeid1);<br>select * from employees where employeeid&#x3D;@domeid1;</p>
+<p>8.创建触发器（修改变量）<br>创建触发器，当部门表中删除某个部门时，这个部门所有员工及薪水都删除。<br>创建触发器的代码：<br>create trigger deleteemployees after delete on departments<br>for each row<br>begin<br>   delete from employees where departmentid&#x3D;old.departmentid;<br>   delete from salary where employeeid in(select employeeid from employees where departmentid&#x3D;old.departmentid);<br>end;<br>删除部门号为4的部门，查看employees表截图：<br>delete from departments where departmentid&#x3D;’4’;<br>select * from employees;</p>
+<p>9.索引与完整性约束（10分）<br>（1）给salary表添加主键（员工Id）。<br>给salary表添加主键代码：<br>alter table salary add primary key (employeeid);<br>给salary表添加主键语句截图：</p>
+<p>（2）给employees表的姓名添加唯一索引。<br>给employees表的姓名添加唯一索引代码：<br>create unique index name1 on employees(name);<br>给employees表的姓名添加唯一索引语句截图：</p>
+<p>10.用户和权限管理（10分）（修改变量）<br>创建名为user，密码为123的用户，然后授予用户user对employees表的所有权限，并允许其将该权限授予其他用户。查看user的权限。<br>代码：<br>create user user@’localhost’ identified by’123’;<br>grant all privileges on tck.employees to user@’localhost’ with grant option;<br>查看用户权限的结果截图：<br>show grants for user@’localhost’;</p>
+<p>游标：创建一个存储过程，输入课程号，求选修该课程的学生人数和学生姓名<br>create procedure getnumandname(in cno char(10),out num int,out xsnames varchar(500))<br>begin<br>   declare flag boolean default true;#定义游标循环标志<br>   declare sno char(10);#定义游标查询语句中选项的变量<br>   declare sname char(10);#定义游标查询语句中选项的变量<br>   declare num_c cursor for#定义游标<br>   select sc.学号,姓名 from sc.student where sc.学号&#x3D;student.学号 and 课程号&#x3D;cno;<br>   declare exit handler for not found set flag&#x3D;false;#如果游标没有下一行数据，flag&#x3D;false不循环<br>   set num&#x3D;0;              #必须线set必须卸载所以declare语句后面<br>   set xsnames&#x3D;’’;             #必须线set必须卸载所有declare语句后面<br>   open num_c;             #打开游标<br>   while flag do           #循环打开游标<br>     fetch num_c into sno,sname; #游标按行抓取值<br>     set num&#x3D;num+1;        #人数加1<br>     set xsnames&#x3D;concat(xsnames,’ ‘,sname);         #人名累计添加<br>   end while;<br>   close num_c;            #关闭游标<br>end;</p>
+<p>call getnumandname(‘102’,@num,@xsname);<br>select @num,@xsname;<br>二、要求：<br>1．提交word文档，将本试卷以自己的“班级+学号后3位+姓名”命名（例如：计算机科学与技术本1901班+001+张三）。<br>2．提交数据库备份，该备份以自己的“班级+学号后3位+姓名”命名（例如：计算机科学与技术本1901班+001+张三）。<br>3．创建文件夹，文件夹名称以自己的“班级+学号后3位+姓名”构成（例如：计算机科学与技术本1901班+001+张三），将上述word文档以及备份文件放到该文件夹中，然后压缩上交。</p>
 
                 </div>
                 
@@ -229,22 +243,22 @@
                 
                     <div class="post-nav border-box">
                         
-                            <div class="prev-post">
-                                <a class="prev"
-                                   rel="prev"
-                                   href="/2024/07/04/mysql-test/"
-                                   title="mysql test"
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2024/06/21/self-introduction/"
+                                   title="self-introduction"
                                 >
-                                    <span class="left arrow-icon flex-center">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </span>
                                     <span class="title flex-center">
-                                        <span class="post-nav-title-item text-ellipsis">mysql test</span>
-                                        <span class="post-nav-item">Prev posts</span>
+                                        <span class="post-nav-title-item text-ellipsis">self-introduction</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
                                     </span>
                                 </a>
                             </div>
-                        
                         
                     </div>
                 
