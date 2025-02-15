@@ -24,7 +24,7 @@
 <meta property="og:image" content="https://uploadfiles.nowcoder.com/images/20231117/5510556_1700188224699/4D7CF33471A392D943F00167D1C86C10">
 <meta property="og:image" content="https://uploadfiles.nowcoder.com/images/20231117/5510556_1700188267859/914FBB519FF1ACBAF602B2DCBD5184D6">
 <meta property="article:published_time" content="2025-02-15T10:31:58.000Z">
-<meta property="article:modified_time" content="2025-02-15T13:21:51.615Z">
+<meta property="article:modified_time" content="2025-02-15T13:22:47.758Z">
 <meta property="article:author" content="zeyang">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://uploadfiles.nowcoder.com/images/20231117/5510556_1700187996129/B6C31D01D41C9E1714958F9C56D01D8F">
@@ -266,7 +266,6 @@
 <h5 id="故障转移"><a href="#故障转移" class="headerlink" title="故障转移"></a>故障转移</h5><p><img src="https://uploadfiles.nowcoder.com/images/20231117/5510556_1700188211539/124D35F05E29BF0152033BE62EF2D66D" alt="alt"><br> 从节点升级为主节点后，如何将用户访问转到新的主节点呢。用户访问的是短链接域名，通过DNS协议映射到负载均衡器节点。这里主备服务器会通过虚拟网卡技术生成同样的虚拟IP，DNS映射为该虚拟IP，那么理论上在IP协议层ARP协议会同时广播到这两台机器，但KeepAlive软件会只让主节点回复ARP包。这样当原主节点挂机后，用户访问的就是新的主节点。</p>
 <h4 id="Redis高可用"><a href="#Redis高可用" class="headerlink" title="Redis高可用"></a>Redis高可用</h4><p>为避免单机Redis挂机导致缓存雪崩等问题，需建立Redis集群机制，常见的解决方案是搭建Redis Sentinel集群来做节点宕机检测及故障转移。这里注意不同的哨兵最好部署在不同的机房，进行隔离，以免没有足够的哨兵存活（&lt;quorun），无法进行故障转移。<br> <img src="https://uploadfiles.nowcoder.com/images/20231117/5510556_1700188224699/4D7CF33471A392D943F00167D1C86C10" alt="alt"></p>
 <h4 id="数据库高可用"><a href="#数据库高可用" class="headerlink" title="数据库高可用"></a>数据库高可用</h4><p>常见的方案为建立主从集群，但注意数据库默认的复制为异步复制。主节点磁盘损坏，从节点未来得及复制时，数据会出现丢失。<br> <img src="https://uploadfiles.nowcoder.com/images/20231117/5510556_1700188267859/914FBB519FF1ACBAF602B2DCBD5184D6" alt="alt"> 可采取数据同步复制方案，主节点将数据同步到从节点，从节点返回数据重放成功后，主节点才返回用户成功。数据在主或从数据丢失后，用户是能实时感知的，可以通过选择重试来保证数据的可靠性。<br> 在企业级生产中，一般会采取同步加异步复制相结合的方案，简称半同步复制。主节点和同步复制的从节点会部署在同一地点的不同机房，异步复制的从节点部署在另外的机房，这样可以避免极低概率下同一地点的数据中心出现着火、网络中断等数据中断异常。</p>
-<p>作者：程序员辰星<br>链接：<a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/554974739119267840">https://www.nowcoder.com/discuss/554974739119267840</a><br>来源：牛客网</p>
 
   </div>
 </article>
